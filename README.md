@@ -11,7 +11,7 @@ Start application:
 * go to /front folder
 * Open your command prompt and use the following command : yarn start
 
-En cas d'erreur:
+/!\ If you have the error "No such file or directory:'install'" then follow the steps below:
 
 * sudo apt remove cmdtest
 * sudo apt remove yarn
