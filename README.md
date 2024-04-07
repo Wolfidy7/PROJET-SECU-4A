@@ -1,3 +1,5 @@
 # PROJET-SECU-4A
 
-Test du premier commit.
+sudo apt-get install npm
+sudo apt install pg
+npm install express mysql body-parser 
