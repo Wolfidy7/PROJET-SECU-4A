@@ -25,7 +25,7 @@ RUN npm run build
 # COPY --from=builder /app/build /usr/share/nginx/html
 
 # # Exposer le port 80 pour l'application
-EXPOSE 80
+EXPOSE 5000
 
 # # Lancer Nginx et maintenir le service actif
 CMD ["yarn", "start"]
