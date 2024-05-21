@@ -1,6 +1,10 @@
-# PROJET-SECU-4A
+### PROJET-SECU-4Asudo systemctl start curity
 
-sudo apt install cmdtest
-sudo apt install npm
-sudo apt install pg
-sudo apt install yarn
+Install PostgreSQL
+Create a database 
+
+### Then execute the following commands, at the root of the project:sudo systemctl start curity
+
+sudo apt install docker-compose
+docker-compose up --build
+
