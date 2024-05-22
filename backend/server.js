@@ -19,54 +19,41 @@ app.use(express.json());
 app.use('/api/users', userRoutes(pool));
 ////////////////////////////////////////////////////CONF OPENID CONNECT////////////////////////////////////////////////
 
-// const { Issuer, Strategy, generators } = require('openid-client');
-// const passport = require('passport');
+// const express = require('express');
 // const session = require('express-session');
+// const Keycloak = require('keycloak-connect');
 
-// // Configurez la session
+// const app = express();
+// const memoryStore = new session.MemoryStore();
+
 // app.use(session({
-//   secret: 'azerty',
+//   secret: 'secret',
 //   resave: false,
 //   saveUninitialized: true,
+//   store: memoryStore
 // }));
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+// const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 
-// // Configurez l'émetteur et la stratégie Passport
-// (async () => {
-//   const issuer = await Issuer.discover('https://votre.fournisseur.didentite.com');
-  
-//   const client = new issuer.Client({
-//     client_id: 'votre_client_id',
-//     client_secret: 'votre_client_secret',
-//     redirect_uris: ['http://localhost:5000/callback'],
-//     response_types: ['code'],
-//   });
-
-//   passport.use('oidc', new Strategy({ client, passReqToCallback: true }, (req, tokenset, userinfo, done) => {
-//     // Traitez l'utilisateur et les tokens ici
-//     return done(null, userinfo);
-//   }));
-
-//   // Sérialisation et désérialisation de l'utilisateur pour la session
-//   passport.serializeUser((user, done) => done(null, user));
-//   passport.deserializeUser((obj, done) => done(null, obj));
-// })();
-
-// // Route pour initier le login OIDC
-// app.get('/login', passport.authenticate('oidc'));
-
-// // Route pour le callback après l'authentification
-// app.get('/callback', passport.authenticate('oidc', { successRedirect: '/', failureRedirect: '/login' }));
+// app.use(keycloak.middleware());
 
 // app.get('/', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.send(`Bonjour ${req.user.name}`);
-//   } else {
-//     res.send('Non connecté');
-//   }
+//   res.send('Welcome to the home page!');
 // });
+
+// app.get('/login', keycloak.protect(), (req, res) => {
+//   res.send('Hello, you are authenticated!');
+// });
+
+// app.get('/logout', (req, res) => {
+//   keycloak.logout(req, res);
+// });
+
+// app.listen(3000, () => {
+//   console.log('Server is running on http://localhost:3000');
+// });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.listen(3000, () => {
 console.log('Server is running on port 3000');
