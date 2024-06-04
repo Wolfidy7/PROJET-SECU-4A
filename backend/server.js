@@ -36,7 +36,13 @@ const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 app.use(keycloak.middleware());
 
 app.get('/login', keycloak.protect(), (req, res) => {
-  res.send('Hello, you are authenticated!');
+  if (req.kauth && req.kauth.grant) {
+    const user = req.kauth.grant.access_token.content;
+    const username = user.preferred_username || user.username;
+    res.send(`Hello, ${username}, you are authenticated!`);
+  } else {
+    res.send('User is not authenticated');
+  }
 });
 
 app.get('/logout', (req, res) => {
