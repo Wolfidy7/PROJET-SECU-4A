@@ -1,12 +1,69 @@
 {
   "realm": "myrealm",
-  "auth-server-url": "http://0.0.0.0:8080/",
+  "auth-server-url": "http://172.17.0.1:8080/",
   "ssl-required": "external",
   "resource": "myclient",
   "credentials": {
     "secret": "secret"
   },
   "scope": "openid",
-  "public-client": true,
-  "confidential-port": 0
+  "public-client": false,
+  "confidential-port": 0,
+  "clientId": "myclient",
+  "name": "",
+  "description": "",
+  "rootUrl": "",
+  "adminUrl": "",
+  "baseUrl": "",
+  "surrogateAuthRequired": false,
+  "enabled": true,
+  "alwaysDisplayInConsole": false,
+  "clientAuthenticatorType": "client-secret",
+  "redirectUris": [
+    "http://localhost:3000/*",
+    "https://www.keycloak.org/app/*"
+  ],
+  "webOrigins": [
+    "",
+    "http://localhost:3000",
+    "https://www.keycloak.org"
+  ],
+  "notBefore": 0,
+  "bearerOnly": false,
+  "consentRequired": false,
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": true,
+  "serviceAccountsEnabled": false,
+  "publicClient": true,
+  "frontchannelLogout": true,
+  "protocol": "openid-connect",
+  "attributes": {
+    "oidc.ciba.grant.enabled": "false",
+    "oauth2.device.authorization.grant.enabled": "false",
+    "display.on.consent.screen": "false",
+    "backchannel.logout.session.required": "true",
+    "backchannel.logout.revoke.offline.tokens": "false"
+  },
+  "authenticationFlowBindingOverrides": {},
+  "fullScopeAllowed": true,
+  "nodeReRegistrationTimeout": -1,
+  "defaultClientScopes": [
+    "web-origins",
+    "acr",
+    "roles",
+    "profile",
+    "email"
+  ],
+  "optionalClientScopes": [
+    "address",
+    "phone",
+    "offline_access",
+    "microprofile-jwt"
+  ],
+  "access": {
+    "view": true,
+    "configure": true,
+    "manage": true
+  }
 }
