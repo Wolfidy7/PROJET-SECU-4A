@@ -13,6 +13,22 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.4
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    command: start-dev
+    depends_on:
+      - postgres
+    networks:
+      - keycloak-network
+    restart: unless-stopped
+
   backend:
     build:
       context: ./backend
@@ -24,8 +40,10 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:azerty@postgres:5432/secu4a
+      - KEYCLOAK_JSON_PATH=backend/keycloak.json
     depends_on:
       - postgres
+      - keycloak
     restart: unless-stopped
 
   frontend:
@@ -38,3 +56,8 @@ services:
 
 volumes:
   postgres-data:
+  keycloak_data:
+
+networks:
+  keycloak-network:
+    driver: bridge
