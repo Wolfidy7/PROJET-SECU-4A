@@ -19,54 +19,38 @@ app.use(express.json());
 app.use('/api/users', userRoutes(pool));
 ////////////////////////////////////////////////////CONF OPENID CONNECT////////////////////////////////////////////////
 
-// const { Issuer, Strategy, generators } = require('openid-client');
-// const passport = require('passport');
-// const session = require('express-session');
+const session = require('express-session');
+const Keycloak = require('keycloak-connect');
 
-// // Configurez la session
-// app.use(session({
-//   secret: 'azerty',
-//   resave: false,
-//   saveUninitialized: true,
-// }));
+const memoryStore = new session.MemoryStore();
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}));
 
-// // Configurez l'émetteur et la stratégie Passport
-// (async () => {
-//   const issuer = await Issuer.discover('https://votre.fournisseur.didentite.com');
-  
-//   const client = new issuer.Client({
-//     client_id: 'votre_client_id',
-//     client_secret: 'votre_client_secret',
-//     redirect_uris: ['http://localhost:5000/callback'],
-//     response_types: ['code'],
-//   });
+const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 
-//   passport.use('oidc', new Strategy({ client, passReqToCallback: true }, (req, tokenset, userinfo, done) => {
-//     // Traitez l'utilisateur et les tokens ici
-//     return done(null, userinfo);
-//   }));
+app.use(keycloak.middleware());
 
-//   // Sérialisation et désérialisation de l'utilisateur pour la session
-//   passport.serializeUser((user, done) => done(null, user));
-//   passport.deserializeUser((obj, done) => done(null, obj));
-// })();
+app.get('/login', keycloak.protect(), (req, res) => {
+  if (req.kauth && req.kauth.grant) {
+    const user = req.kauth.grant.access_token.content;
+    const username = user.preferred_username || user.username;
+    res.send(`Hello, ${username}, you are authenticated!`);
+  } else {
+    res.send('User is not authenticated');
+  }
+});
 
-// // Route pour initier le login OIDC
-// app.get('/login', passport.authenticate('oidc'));
+app.get('/logout', (req, res) => {
+  keycloak.logout(req, res);
+});
 
-// // Route pour le callback après l'authentification
-// app.get('/callback', passport.authenticate('oidc', { successRedirect: '/', failureRedirect: '/login' }));
 
-// app.get('/', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.send(`Bonjour ${req.user.name}`);
-//   } else {
-//     res.send('Non connecté');
-//   }
-// });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // const express = require('express');
 // const session = require('express-session');

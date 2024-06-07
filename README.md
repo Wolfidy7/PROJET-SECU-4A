@@ -1,26 +1,18 @@
-# PROJET-SECU-4A
+### PROJET-SECU-4A
 
-Dependencies download:
+Install PostgreSQL
+Create a database 
 
-* pip install flask
-* pip install flask_sqlalchemy
+### Run keycloak if you have created the docker volume keycloak_data
 
+sudo docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v keycloak_data:/opt/keycloak/data quay.io/keycloak/keycloak:24.0.4 start-dev
 
-Start application:
+### Configure keycloak
 
-* go to /front folder
-* Open your command prompt and use the following command : yarn start
+https://www.keycloak.org/getting-started/getting-started-docker
 
-/!\ If you have the error "No such file or directory:'install'" then follow the steps below:
+### Then execute the following commands, at the root of the project:sudo systemctl start curity
 
-* sudo apt remove cmdtest
-* sudo apt remove yarn
-* curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-* echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-* sudo apt-get update
-* sudo apt-get install yarn -y
-* yarn install
-* yarn start
+sudo apt install docker-compose
+docker-compose up --build
 
-#####
-test regle de protection
