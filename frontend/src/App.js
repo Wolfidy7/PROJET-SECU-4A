@@ -1,44 +1,32 @@
-//import logo from './assets/logo.svg';
-import './styles/App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import UserList from './components/UserList';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         > 
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-
+import React, { useState } from 'react';
+import './styles/App.css'; // Assurez-vous que le fichier de style est bien importé.
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [view, setView] = useState('home');
 
-  useEffect(() => {
-    axios.get('/api/users')
-      .then(response => setUsers(response.data))
-      .catch(error => console.log(error));
-  }, []);
+  const goToLogin = () => {
+    setView('login');
+  };
+
+  if (view === 'login') {
+    return (
+      <div className="App">
+        <div className="content">
+          <h1>Page de connexion</h1>
+          <p>Ceci est la page de connexion.</p>
+          <button onClick={() => setView('home')}>Retour à l'accueil</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <UserList users={users} />
+    <div className="App">
+      <div className="content">
+        <h1>Bienvenue sur ma page</h1>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHZgbvn53s27-hFfGazuaQuuZ9mn47_rAVsQ&s" alt="placeholder" />
+        <button onClick={goToLogin}>Cliquez-moi</button>
+      </div>
     </div>
   );
 }
