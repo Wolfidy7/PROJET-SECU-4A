@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './styles/App.css'; // Assurez-vous que le fichier de style est bien importé.
 
 function App() {
-  const [view, setView] = useState('home');
+  const [view] = useState('home');
 
   const goToLogin = () => {
-    setView('login');
+    window.location.href = 'http://localhost:3000/login';
   };
 
   if (view === 'login') {
@@ -14,7 +14,7 @@ function App() {
         <div className="content">
           <h1>Page de connexion</h1>
           <p>Ceci est la page de connexion.</p>
-          <button onClick={() => setView('home')}>Retour à l'accueil</button>
+          <button onClick={() => goToLogin}>Retour à l'accueil</button>
         </div>
       </div>
     );
