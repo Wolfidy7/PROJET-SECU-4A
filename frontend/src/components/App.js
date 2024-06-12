@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Header from './Header';
 import Footer from './Footer';
-import AuthHandler from './AuthHandler';
 import NotAuth from './NotAuth';
+import Login from './Login';
 
 
 function App() {
@@ -25,9 +25,9 @@ function App() {
     <div>
         <Router>
             <Routes>
-                <Route path="/auth" element={<AuthHandler />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/notauth" element={<NotAuth />} />
+                <Route path="/" element={<Login />} />
             </Routes>
         </Router>
     </div>

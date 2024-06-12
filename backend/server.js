@@ -25,14 +25,15 @@ const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 
 app.use(keycloak.middleware());
 
-app.get('/login', keycloak.protect(), async (req, res) => { // Ajoute async ici
+app.get('/login', keycloak.protect(), async (req, res) => { 
   if (req.kauth && req.kauth.grant) {
     const user = req.kauth.grant.access_token.content;
     const username = user.preferred_username || user.username;
+    //localStorage.setItem('login', username);
+
 
     try {
-      const checking = await loginExists(username); // Utilise await pour obtenir la valeur booléenne
-      console.log("ok:", checking);
+      const checking = await loginExists(username); 
 
       if (checking) {
         res.redirect('http://localhost:3001/home');
@@ -52,17 +53,6 @@ app.get('/login', keycloak.protect(), async (req, res) => { // Ajoute async ici
 app.get('/logout', (req, res) => {
   keycloak.logout(req, res);
 });
-
-// Route pour récupérer la liste des utilisateurs
-app.get('/', (req, res) => {
-  const users = [
-    { id: 1, login: 'Alice' },
-    { id: 2, login: 'Bob' },
-    { id: 3, login: 'Charlie' },
-  ];
-  res.json(users);
-});
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
