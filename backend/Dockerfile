@@ -15,7 +15,7 @@ RUN npm install keycloak-connect express-session
 # Copier tous les fichiers sources de l'application dans le conteneur
 COPY . .
 
-# Exposer le port sur lequel l'application s'exécute
+# Exposer le port sur lequel l'application s'exécute (ici 3000)
 EXPOSE 3000
 
 # Définir la commande pour démarrer l'application

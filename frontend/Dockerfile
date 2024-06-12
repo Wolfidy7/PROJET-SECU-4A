@@ -11,6 +11,11 @@ COPY package*.json ./
 # Installer les dépendances
 RUN npm install
 
+#Installation de Bootstrap
+RUN npm install bootstrap
+
+RUN npm install react-router-dom
+
 # Copier les fichiers de l'application React
 COPY . .
 
@@ -24,8 +29,8 @@ RUN npm run build
 # # Copier les fichiers de construction statiques dans le dossier de serveur Nginx
 # COPY --from=builder /app/build /usr/share/nginx/html
 
-# # Exposer le port 80 pour l'application
-EXPOSE 5000
+# # Exposer le port 5000 pour l'application
+EXPOSE 3000
 
 # # Lancer Nginx et maintenir le service actif
 CMD ["yarn", "start"]

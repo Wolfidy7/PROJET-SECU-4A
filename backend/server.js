@@ -1,22 +1,12 @@
 const express = require('express');
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
 const userRoutes = require('./routes/users');
-
+const { loginExists } = require('./routes/users')
 const app = express();
-
-const pool = new Pool({
-  user: 'postgres',
-  host: '172.17.0.1',
-  database: 'postgres',
-  password: 'azerty', 
-  port: 5432,
-});
-
-pool.connect();
 
 
 app.use(express.json());
-app.use('/api/users', userRoutes(pool));
+// app.use('/api/users', userRoutes(pool));
 ////////////////////////////////////////////////////CONF OPENID CONNECT////////////////////////////////////////////////
 
 const session = require('express-session');
@@ -35,13 +25,27 @@ const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 
 app.use(keycloak.middleware());
 
-app.get('/login', keycloak.protect(), (req, res) => {
+app.get('/login', keycloak.protect(), async (req, res) => { // Ajoute async ici
   if (req.kauth && req.kauth.grant) {
     const user = req.kauth.grant.access_token.content;
     const username = user.preferred_username || user.username;
-    res.send(`Hello, ${username}, you are authenticated!`);
+
+    try {
+      const checking = await loginExists(username); // Utilise await pour obtenir la valeur booléenne
+      console.log("ok:", checking);
+
+      if (checking) {
+        res.redirect('http://localhost:3001/home');
+      } else {
+        res.redirect('http://localhost:3001/notauth'); // Redirige si le login n'existe pas
+      }
+    } catch (error) {
+      console.error("Error checking login existence:", error);
+      res.status(500).send("Server error");
+    }
+
   } else {
-    res.send('User is not authenticated');
+    res.redirect('http://localhost:3001/notauth');
   }
 });
 
@@ -49,10 +53,15 @@ app.get('/logout', (req, res) => {
   keycloak.logout(req, res);
 });
 
+app.get('/test', (req, res) => {
+res.send(`Hello, ${username}, you are authenticated!`);
+});
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.listen(3000, () => {
+
+app.listen(3000,'0.0.0.0', () => {
 console.log('Server is running on port 3000');
 });
 
