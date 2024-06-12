@@ -53,8 +53,14 @@ app.get('/logout', (req, res) => {
   keycloak.logout(req, res);
 });
 
-app.get('/test', (req, res) => {
-res.send(`Hello, ${username}, you are authenticated!`);
+// Route pour récupérer la liste des utilisateurs
+app.get('/', (req, res) => {
+  const users = [
+    { id: 1, login: 'Alice' },
+    { id: 2, login: 'Bob' },
+    { id: 3, login: 'Charlie' },
+  ];
+  res.json(users);
 });
 
 
@@ -64,4 +70,3 @@ res.send(`Hello, ${username}, you are authenticated!`);
 app.listen(3000,'0.0.0.0', () => {
 console.log('Server is running on port 3000');
 });
-

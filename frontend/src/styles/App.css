@@ -1,38 +1,86 @@
+/* src/styles/App.css */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; /* Background gris clair pour tout le corps */
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 100vh; /* 100% de la hauteur de la fenêtre */
+  background-color: #f8f9fa; /* Pour s'assurer que le fond est appliqué */
 }
 
-.App-link {
-  color: #61dafb;
+.content {
+  text-align: center;
+  background: #ffffff; /* Fond blanc */
+  padding: 2rem; /* Padding autour du contenu */
+  border-radius: 12px; /* Coins arrondis */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre douce pour un effet flottant */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transitions pour effet de survol */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.content h1 {
+  font-size: 2.5rem; /* Taille de la police plus grande pour le titre */
+  color: #333; /* Couleur sombre pour le texte */
+  margin-bottom: 1.5rem; /* Espace en dessous du titre */
+  font-weight: bold; /* Texte en gras */
+}
+
+.content img {
+  width: 200px; /* Taille plus grande pour l'image */
+  height: 200px;
+  margin-bottom: 1.5rem;
+  border-radius: 50%; /* Image circulaire */
+  border: 2px solid #007bff; /* Bordure autour de l'image */
+  transition: transform 0.3s; /* Transition pour effet de survol */
+}
+
+.content img:hover {
+  transform: scale(1.1); /* Effet de zoom au survol */
+}
+
+.content button {
+  padding: 0.75rem 1.5rem; /* Taille du bouton augmentée */
+  background-color: #007bff; /* Couleur bleue pour le bouton */
+  color: white; /* Texte blanc */
+  border: none;
+  border-radius: 8px; /* Coins arrondis pour le bouton */
+  cursor: pointer; /* Pointeur en forme de main */
+  font-size: 1.2rem; /* Taille de la police augmentée */
+  font-weight: bold; /* Texte en gras */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour l'effet flottant */
+  transition: background-color 0.3s, transform 0.3s; /* Transition pour changement de couleur et effet de clic */
+}
+
+.content button:hover {
+  background-color: #0056b3; /* Couleur plus sombre au survol */
+  transform: translateY(-2px); /* Déplacement vers le haut au survol */
+}
+
+.content button:active {
+  transform: translateY(1px); /* Légère descente lors du clic */
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 90%; /* Ajustement de la largeur pour les petits écrans */
+    padding: 1.5rem; /* Réduction du padding pour les petits écrans */
   }
-  to {
-    transform: rotate(360deg);
+
+  .content h1 {
+    font-size: 2rem; /* Réduction de la taille de la police pour les petits écrans */
+  }
+
+  .content img {
+    width: 150px; /* Taille de l'image réduite pour les petits écrans */
+    height: 150px;
+  }
+
+  .content button {
+    font-size: 1rem; /* Réduction de la taille de la police du bouton pour les petits écrans */
+    padding: 0.5rem 1rem; /* Réduction de la taille du bouton */
   }
 }
