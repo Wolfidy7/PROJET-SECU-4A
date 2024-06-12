@@ -16,6 +16,7 @@ COPY . .
 
 # Construire l'application pour la production
 RUN npm run build
+# RUN npm install react-router-dom
 
 # # Étape de production
 # # Utiliser une image de base Nginx pour servir l'application

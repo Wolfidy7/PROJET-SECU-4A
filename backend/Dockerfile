@@ -10,7 +10,7 @@ COPY package*.json ./
 # Installer les dépendances de l'application
 # Note : npm clean-install est utilisé pour correspondre exactement avec package-lock.json s'il existe
 #RUN npm clean-install
-RUN npm install keycloak-connect express-session
+RUN npm install keycloak-connect express-session react-router-dom
 
 # Copier tous les fichiers sources de l'application dans le conteneur
 COPY . .

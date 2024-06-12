@@ -1,44 +1,68 @@
-//import logo from './assets/logo.svg';
-import './styles/App.css';
-import React, { useEffect, useState } from 'react';
+// App.js
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import UserList from './components/UserList';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         > 
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-
+import FileUpload from './components/FileUpload';
+import Home from './components/Home';
+import Login from './components/Login';
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState('home'); // State to manage the current page
 
   useEffect(() => {
-    axios.get('/api/users')
-      .then(response => setUsers(response.data))
-      .catch(error => console.log(error));
+    // Check if user is authenticated
+    axios.get('/api/users/isAuthenticated')
+      .then(response => {
+        setAuthenticated(response.data.authenticated);
+        if (response.data.authenticated) {
+          // Check if user is admin
+          return axios.get('/api/users/isAdmin');
+        }
+      })
+      .then(response => {
+        if (response) {
+          setIsAdmin(response.data.isAdmin);
+        }
+      })
+      .catch(error => {
+        console.error('Error checking authentication or admin status', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // to change --- this is just a test ---
+  if (!authenticated) {
+    // return <Login />;
+    return <FileUpload />;
+  }
+
+  let content;
+  if (page === 'upload') {
+    content = <FileUpload />;
+  } else {
+    content = <Home />;
+  }
 
   return (
     <div>
-      <UserList users={users} />
+      <nav>
+        <button onClick={() => handlePageChange('home')}>Home</button>
+        {isAdmin && <button onClick={() => handlePageChange('upload')}>Upload</button>}
+      </nav>
+      {content}
     </div>
   );
 }
