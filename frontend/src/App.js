@@ -25,7 +25,7 @@ function App() {
       <div className="content">
         <h1>Bienvenue sur ma page</h1>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHZgbvn53s27-hFfGazuaQuuZ9mn47_rAVsQ&s" alt="placeholder" />
-        <button onClick={goToLogin}>Cliquez-moi</button>
+        <button onClick={goToLogin}>Se connecter</button>
       </div>
     </div>
   );
