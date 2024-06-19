@@ -16,6 +16,12 @@ RUN npm install bootstrap
 
 RUN npm install react-router-dom
 
+RUN npm install primereact primeicons primeflex
+
+RUN npm install keycloak-js
+
+
+
 # Copier les fichiers de l'application React
 COPY . .
 

@@ -1,62 +1,58 @@
 const express = require('express');
-// const { Pool } = require('pg');
-const userRoutes = require('./routes/users');
-const { loginExists } = require('./routes/users')
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+
 const app = express();
+const PORT = 3000;
 
+app.use(cors());
 
-app.use(express.json());
-// app.use('/api/users', userRoutes(pool));
-////////////////////////////////////////////////////CONF OPENID CONNECT////////////////////////////////////////////////
+const getDirectoryStructure = (dirPath) => {
+  const result = {
+    name: path.basename(dirPath),
+    type: 'folder',
+    items: []
+  };
 
-const session = require('express-session');
-const Keycloak = require('keycloak-connect');
+  const files = fs.readdirSync(dirPath);
+  files.forEach(file => {
+    const filePath = path.join(dirPath, file);
+    const stat = fs.lstatSync(filePath);
 
-const memoryStore = new session.MemoryStore();
-
-app.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: true,
-  store: memoryStore
-}));
-
-const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
-
-app.use(keycloak.middleware());
-
-app.get('/login', keycloak.protect(), async (req, res) => { 
-  if (req.kauth && req.kauth.grant) {
-    const user = req.kauth.grant.access_token.content;
-    const username = user.preferred_username || user.username;
-    //localStorage.setItem('login', username);
-
-
-    try {
-      const checking = await loginExists(username); 
-
-      if (checking) {
-        res.redirect('http://localhost:3001/home');
-      } else {
-        res.redirect('http://localhost:3001/notauth'); // Redirige si le login n'existe pas
-      }
-    } catch (error) {
-      console.error("Error checking login existence:", error);
-      res.status(500).send("Server error");
+    if (stat.isDirectory()) {
+      result.items.push(getDirectoryStructure(filePath));
+    } else {
+      result.items.push({
+        name: file,
+        type: 'file',
+        path: filePath  // Ajoutez le chemin du fichier
+      });
     }
+  });
 
-  } else {
-    res.redirect('http://localhost:3001/notauth');
-  }
+  return result;
+};
+
+app.get('/api/files', (req, res) => {
+  const directoryPath = path.join(__dirname, '/files'); // Change 'your_directory' to your target directory
+  const directoryStructure = getDirectoryStructure(directoryPath);
+  res.json(directoryStructure);
 });
 
-app.get('/logout', (req, res) => {
-  keycloak.logout(req, res);
+app.get('/api/file-content', (req, res) => {
+  const filePath = req.query.path;
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      return res.status(500).send('Unable to read file: ' + err);
+    }
+    const fileType = path.extname(filePath).substring(1);
+    res.setHeader('Content-Type', `application/${fileType}`);
+    res.send(data);
+  });
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-app.listen(3000,'0.0.0.0', () => {
-console.log('Server is running on port 3000');
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

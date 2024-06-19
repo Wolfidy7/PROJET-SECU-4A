@@ -34,7 +34,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./backend:/usr/src/app
     environment:
@@ -51,7 +51,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3000:3000"
     restart: unless-stopped
 
 volumes:

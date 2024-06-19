@@ -12,6 +12,8 @@ COPY package*.json ./
 #RUN npm clean-install
 RUN npm install keycloak-connect express-session
 
+RUN npm install cors
+
 # Copier tous les fichiers sources de l'application dans le conteneur
 COPY . .
 
