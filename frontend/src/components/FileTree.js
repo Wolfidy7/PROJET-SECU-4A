@@ -1,6 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const checkUserRole = (kc, name) => {
+  if (kc.hasRealmRole('admin')) {
+    return true;
+  } else if (kc.hasRealmRole('user')) {
+    return !['Confidentiel', 'Admin','Restreint'].includes(name);
+  } else if (kc.hasRealmRole('manager')) {
+    return name !== 'Restreint';
+  } else if (kc.hasRealmRole('guest')) {
+    return name === 'Public';
+  }
+  return false;
+};
+
+const filterItemsByRole = (kc, items) => {
+  return items.filter(item => {
+    if (item.type === 'folder' && !checkUserRole(kc, item.name)) {
+      return false;
+    }
+    if (item.type === 'folder') {
+      item.items = filterItemsByRole(kc, item.items);
+    }
+    return true;
+  });
+};
+
 const File = ({ name, path, onClick }) => (
   <div onClick={() => onClick(path)} style={{ cursor: 'pointer' }}>
     📄 {name}
@@ -34,18 +59,22 @@ const Folder = ({ name, items, level = 0, onClick }) => {
   );
 };
 
-const FileTree = () => {
+const FileTree = ({ kc }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/files')
       .then(response => {
-        setData(response.data);
+        const filteredData = {
+          ...response.data,
+          items: filterItemsByRole(kc, response.data.items)
+        };
+        setData(filteredData);
       })
       .catch(error => {
         console.error("There was an error fetching the files!", error);
       });
-  }, []);
+  }, [kc]);
 
   const handleFileClick = (filePath) => {
     axios.get(`http://localhost:3001/api/file-content?path=${encodeURIComponent(filePath)}`, {
@@ -65,7 +94,7 @@ const FileTree = () => {
       });
   };
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div></div>;
 
   return (
     <div>
