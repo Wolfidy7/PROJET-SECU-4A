@@ -7,8 +7,6 @@ import '/node_modules/primeflex/primeflex.css';
 import { httpClient } from './HttpClient';
 import Keycloak from 'keycloak-js';
 import Home from './Home';
-import FileTree from './FileTree';
-import KeycloakButton from './KeycloakButtons';
 
 const initOptions = {
   url: 'http://172.17.0.1:8080/',
@@ -23,7 +21,6 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
-  const [infoMessage, setInfoMessage] = useState('');
   const [keycloakInitialized, setKeycloakInitialized] = useState(false);
 
   useEffect(() => {
@@ -57,7 +54,6 @@ function App() {
     }
   }, []);
 
-  const redirectUri = window.location.origin;
 
   if (!keycloakInitialized) {
     return <div>Loading...</div>;
@@ -65,36 +61,9 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-                <Routes>
-          <Route path="/test" element={<Home />} />
-          <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Routes>
+            <Route path="/" element={<PrivateRoute><Home kc={kc} /></PrivateRoute>} />
         </Routes>
-        <div className='grid'>
-          {/* <div className='col-12'>
-            <h1>My Secured React App</h1>
-          </div>
-        </div>
-        <div className="grid">
-          <div className='col-1'></div>
-          <div className='col-2'>
-            <KeycloakButton kc={kc} httpClient={httpClient} redirectUri={redirectUri} setInfoMessage={setInfoMessage} />
-          </div>
-          <div className='col-6'>
-            <Card>
-              <p style={{ wordBreak: 'break-all' }} id='infoPanel'>
-                {infoMessage}
-              </p>
-            </Card>
-          </div>
-          <div className='col-2'></div>
-        </div>
-        <div>
-          <h1>File Explorer</h1> */}
-          <FileTree kc={kc} />
-        </div>
-
-      </div>
     </Router>
   );
 }

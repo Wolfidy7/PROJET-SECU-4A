@@ -11,7 +11,7 @@ function Header() {
         <div>
           <button className="btn btn-primary mx-2">Administrer</button>
           <button className="btn btn-primary mx-2">Test</button>
-          <button className="btn btn-danger">Déconnexion</button>
+          <button className="btn btn-danger mx-2">Déconnexion</button>
         </div>
       </div>
     </header>
