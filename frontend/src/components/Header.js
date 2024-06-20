@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../assets/logo.svg';
 
-function Header() {
+function Header({kc, redirectUri}) {
   return (
     <header className="bg-light p-3">
       <div className="container d-flex justify-content-between align-items-center">
@@ -11,7 +11,7 @@ function Header() {
         <div>
           <button className="btn btn-primary mx-2">Administrer</button>
           <button className="btn btn-primary mx-2">Test</button>
-          <button className="btn btn-danger mx-2">Déconnexion</button>
+          <button className="btn btn-danger mx-2" onClick={() => { kc.logout({ redirectUri: redirectUri }) }}>Déconnexion</button>
         </div>
       </div>
     </header>

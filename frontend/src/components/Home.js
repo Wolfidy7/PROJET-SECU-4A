@@ -3,14 +3,14 @@ import Header from './Header';
 import FileTree from './FileTree';
 import Footer from './Footer';
 
-function Home({ kc }) {
+function Home({ kc, redirectUri }) {
   return (
     <>
-      <Header />
+      <Header kc={kc} redirectUri={redirectUri}/>
       <div className="home-container container my-5">
         <div className="content text-center mb-5">
-          <h1 className="display-4">Hello, world!</h1>
-          <p className="lead">Ce site mènera bientôt vers un serveur super sécurisé !</p>
+          <h1 className="display-4">SECURE DATA</h1>
+          <p className="lead">Bienvenue sur notre serveur de fichiers sécurisé</p>
           <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </div>
         <div className="file-tree text-center">
