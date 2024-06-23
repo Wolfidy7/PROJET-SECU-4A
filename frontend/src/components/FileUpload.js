@@ -8,7 +8,7 @@ function FileUpload() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('/api/filetypes')
+    axios.get('http://localhost:3001/api/filetypes')
       .then(response => {
         setFileTypes(response.data);
       })
@@ -37,7 +37,7 @@ function FileUpload() {
     formData.append('id_type', fileType);
 
     try {
-      const response = await axios.post('/api/files/uploads', formData, {
+      const response = await axios.post('http://localhost:3001/api/files/uploads', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

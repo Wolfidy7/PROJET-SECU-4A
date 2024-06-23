@@ -1,11 +1,10 @@
-
 -- Suppresion des tables si elles ont été créées
 DROP TABLE IF EXISTS droit;
 DROP TABLE IF EXISTS file;
 DROP TABLE IF EXISTS filetype;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
-DROP DATABASE IF EXISTS projetsecu;
+DROP DATABASE IF EXISTS secu4a;
 --Création de la base de données
 CREATE DATABASE projetsecu;
 
@@ -13,7 +12,7 @@ CREATE DATABASE projetsecu;
 -- Mettre les informations de Connection
 -- Connexion à la base de données nouvellement créée
 -- Connexion à la base de données nouvellement créée
-\c projetsecu
+\c secu4a
 -- Création de la table Roles
 CREATE TABLE roles (
     id_role VARCHAR(50) PRIMARY KEY ,

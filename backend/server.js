@@ -1,11 +1,8 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
-const userRoutes = require('./routes/users');
 const fileUpload = require('express-fileupload');
-const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -19,7 +16,7 @@ app.use(cors());
 const pool = new Pool({
   user: 'postgres',
   host: '172.17.0.1',
-  database: 'projetsecu',
+  database: 'postgres',
   password: 'azerty',
   port: 5432,
 });
@@ -89,10 +86,10 @@ const keycloak = new Keycloak({ store: memoryStore }, 'keycloak.json');
 app.use(keycloak.middleware());
 
 const uploadDirs = {
-  'FT1': '/usr/src/app/uploads/Public',
-  'FT2': '/usr/src/app/uploads/Interne',
-  'FT3': '/usr/src/app/uploads/Confidentiel',
-  'FT4': '/usr/src/app/uploads/Restreint'
+  'FT1': '/usr/src/app/files/Public',
+  'FT2': '/usr/src/app/files/Interne',
+  'FT3': '/usr/src/app/files/Confidentiel',
+  'FT4': '/usr/src/app/files/Restreint'
 };
 
 // Create directories if they don't exist
@@ -167,6 +164,7 @@ app.post('/api/files/uploads', async (req, res) => {
 app.get('/api/filetypes', async (req, res) => {
   try {
     const queryResult = await pool.query('SELECT id_type, nom FROM filetype');
+    console.log("resulat: ", queryResult);
     const fileTypes = queryResult.rows;
     res.json(fileTypes);
   } catch (error) {
@@ -175,9 +173,3 @@ app.get('/api/filetypes', async (req, res) => {
   }
 });
 
-// Protected user routes
-app.use('/api/users', keycloak.protect(), userRoutes(pool));
-
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
-});

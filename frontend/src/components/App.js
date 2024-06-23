@@ -8,6 +8,7 @@ import { httpClient } from './HttpClient';
 import Keycloak from 'keycloak-js';
 import Home from './Home';
 import KeycloakButton from './KeycloakButtons';
+import FileUpload from './FileUpload';
 
 const initOptions = {
   url: 'http://172.17.0.1:8080/',
@@ -65,6 +66,7 @@ function App() {
         <Routes>
             <Route path="/" element={<PrivateRoute><Home kc={kc} /></PrivateRoute>} />
             <Route path="/keycloak" element={<PrivateRoute><KeycloakButton kc={kc} /></PrivateRoute>} />
+            <Route path="/upload" element={<PrivateRoute><FileUpload /></PrivateRoute>} />
         </Routes>
     </Router>
   );
