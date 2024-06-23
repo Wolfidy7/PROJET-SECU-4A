@@ -65,5 +65,21 @@ module.exports = (pool, keycloak) => {
     }
   });
 
+  // Endpoint to fetch document types
+  app.get('/filetypes', async (req, res) => {
+    try {
+      // Query the database to fetch document types
+      const queryResult = await pool.query('SELECT id_type, nom FROM filetype');
+      const fileTypes = queryResult.rows;
+
+      // Send the document types as a JSON response
+      res.json(fileTypes);
+      
+    } catch (error) {
+      console.error('Error fetching document types:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
   return router;
 };

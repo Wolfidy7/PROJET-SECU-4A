@@ -38,9 +38,10 @@ CREATE TABLE filetype (
 
 -- Création de la table File
 CREATE TABLE file (
-    id_file VARCHAR(50) PRIMARY KEY,
     nom VARCHAR(100),
     id_type VARCHAR(50),
+    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (nom, id_type),
     FOREIGN KEY (id_type) REFERENCES filetype (id_type)
 );
 

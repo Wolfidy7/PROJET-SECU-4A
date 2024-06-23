@@ -1,6 +1,9 @@
 # Utiliser une image de base Node.js (spécifier la version de Node que vous voulez, ici nous utilisons 16)
 FROM node:16
 
+# Installer nano
+RUN apt-get update && apt-get install -y nano
+
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /backend
 
@@ -10,7 +13,7 @@ COPY package*.json ./
 # Installer les dépendances de l'application
 # Note : npm clean-install est utilisé pour correspondre exactement avec package-lock.json s'il existe
 #RUN npm clean-install
-RUN npm install keycloak-connect express-session react-router-dom
+RUN npm install keycloak-connect express-session react-router-dom body-parser express-fileupload
 
 # Copier tous les fichiers sources de l'application dans le conteneur
 COPY . .

@@ -37,6 +37,11 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/usr/src/app
+      - ./backend/uploads/:/usr/src/app/uploads
+      - ./backend/uploads/Public:/usr/src/app/uploads/Public
+      - ./backend/uploads/Interne:/usr/src/app/uploads/Interne
+      - ./backend/uploads/Confidentiel:/usr/src/app/uploads/Confidentiel
+      - ./backend/uploads/Restreint:/usr/src/app/uploads/Restreint
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:azerty@postgres:5432/secu4a

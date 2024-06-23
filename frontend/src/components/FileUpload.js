@@ -3,15 +3,14 @@ import axios from 'axios';
 
 function FileUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileType, setFileType] = useState(''); // State to store the selected file type
-  const [fileTypes, setFileTypes] = useState([]); // State to store the list of document types
+  const [fileType, setFileType] = useState('');
+  const [fileTypes, setFileTypes] = useState([]);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Fetch document types from the backend when the component mounts
     axios.get('/api/filetypes')
       .then(response => {
-        setFileTypes(response.data); // Assuming the response is an array of document types
+        setFileTypes(response.data);
       })
       .catch(error => {
         console.error('Error fetching document types', error);
@@ -45,8 +44,8 @@ function FileUpload() {
       });
       setMessage(response.data.message);
     } catch (error) {
-      console.error('Error uploading file', error);
-      setMessage('Error uploading file');
+      console.error('Error uploading file FileUpload : ', error);
+      setMessage('Error uploading file FileUpload');
     }
   };
 
