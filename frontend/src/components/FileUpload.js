@@ -17,6 +17,9 @@ function FileUpload() {
       });
   }, []);
 
+  const goToUpload = () => {
+    window.location.href = 'http://localhost:3000/upload';
+  };
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
