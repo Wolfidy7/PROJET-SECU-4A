@@ -17,6 +17,12 @@ RUN npm install keycloak-connect express-session react-router-dom body-parser ex
 
 RUN npm install cors
 
+RUN npm install chokidar
+
+RUN npm install ws
+
+
+
 # Copier tous les fichiers sources de l'application dans le conteneur
 COPY . .
 
