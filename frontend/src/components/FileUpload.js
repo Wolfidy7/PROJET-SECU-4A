@@ -54,9 +54,7 @@ function FileUpload({ kc, redirectUri }) {
   };
 
   return (
-    <>
-      <Header kc={kc} redirectUri={redirectUri} />
-  
+    <> 
       <div className="container d-flex flex-column min-vh-80 my-5">
         <div className="flex-grow-1">
           <h1 className="display-4">Télécharger un fichier</h1>
