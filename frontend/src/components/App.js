@@ -66,7 +66,7 @@ function App() {
         <Routes>
             <Route path="/" element={<PrivateRoute><Home kc={kc} /></PrivateRoute>} />
             <Route path="/keycloak" element={<PrivateRoute><KeycloakButton kc={kc} /></PrivateRoute>} />
-            <Route path="/upload" element={<PrivateRoute><FileUpload /></PrivateRoute>} />
+            <Route path="/upload" element={<PrivateRoute><FileUpload kc={kc}/></PrivateRoute>} />
         </Routes>
     </Router>
   );

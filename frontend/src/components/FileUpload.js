@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from './Header';
 
-function FileUpload() {
+function FileUpload({ kc, redirectUri }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState('');
   const [fileTypes, setFileTypes] = useState([]);
@@ -53,27 +54,42 @@ function FileUpload() {
   };
 
   return (
-    <div>
-      <h1>Upload a File</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="file">Select File:</label>
-          <input type="file" id="file" onChange={handleFileChange} required />
+    <>
+      <Header kc={kc} redirectUri={redirectUri} />
+  
+      <div className="container d-flex flex-column min-vh-80 my-5">
+        <div className="flex-grow-1">
+          <h1 className="display-4">Télécharger un fichier</h1>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="file" className="form-label">Sélectionner un fichier :</label>
+              <input type="file" className="form-control" id="file" onChange={handleFileChange} required />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="fileType" className="form-label">Type de fichier :</label>
+              <select className="form-select" id="fileType" value={fileType} onChange={handleFileTypeChange} required>
+                <option value="">Sélectionner un type de fichier</option>
+                {fileTypes.map(fileType => (
+                  <option key={fileType.id_type} value={fileType.id_type}>{fileType.nom}</option>
+                ))}
+              </select>
+            </div>
+            <button className="btn btn-danger" type="submit">Télécharger</button>
+          </form>
+          
+          {message && <p>{message}</p>}
         </div>
-        <div>
-          <label htmlFor="fileType">File Type:</label>
-          <select id="fileType" value={fileType} onChange={handleFileTypeChange} required>
-            <option value="">Select a file type</option>
-            {fileTypes.map(fileType => (
-              <option key={fileType.id_type} value={fileType.id_type}>{fileType.nom}</option>
-            ))}
-          </select>
+  
+        <div className="d-flex justify-content-end">
+          <a href="http://localhost:3000">
+            <button className="btn btn-primary">Accueil</button>
+          </a>
         </div>
-        <button type="submit">Upload</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+      </div>
+    </>
   );
+    
 }
 
 export default FileUpload;

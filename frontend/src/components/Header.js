@@ -11,7 +11,6 @@ function Header({kc, redirectUri}) {
         </a>
         <div>
           <a href="http://localhost:3000/upload"><button className="btn btn-primary mx-2">Administrer</button></a>
-          <button className="btn btn-primary mx-2">Test</button>
           <button className="btn btn-danger mx-2" onClick={() => { kc.logout({ redirectUri: redirectUri }) }}>Déconnexion</button>
         </div>
       </div>
