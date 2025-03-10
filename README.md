@@ -1,5 +1,7 @@
 ### PROJET-SECU-4A
 
+Ce projet de sécurité d'école d'ingénieurs avait pour objectif de développer un serveur de fichiers sécurisé avec un accès contrôlé sur les dossiers/répertoires en fonction des droits et des rôles des différents utilisateurs.
+
 Install PostgreSQL
 Create a database 
 
